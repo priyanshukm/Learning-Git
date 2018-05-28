@@ -5,6 +5,7 @@ trait CacheMem {
   protected var MAXSIZE = 4
 
   def insert(key : Any, value: Any) : Unit
+  
   def get(key : Any): Any = {
     return map.getOrElse(key, null)
   }
@@ -28,14 +29,12 @@ class LRU extends CacheMem {
     }
     else {
       if(map.exists(_ == (key,value)) == false) {
-        //println(k +  " "  +  v + "Removed")
         map -= (k,v)
         map.put(key,value)
       }
     }
     k = key
     v = value
-    //println(k +  " "  +  v + "Last inserted")
   }
 }
 
@@ -67,7 +66,6 @@ class FIFO extends CacheMem {
     else {
       if(map.exists(_ == (key,value)) == false) {
         val next = q.dequeue()
-        //ßprintln(next + " " + get(next))
         map -= (next, get(next))
         map.put(key,value)
       }
